@@ -122,6 +122,122 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
+    // Confetti animation function
+    function createConfetti() {
+        const confettiCount = 150;
+        const colors = ['#FFCC00', '#990000', '#FFD700', '#FFA500', '#FFFFFF'];
+        const confettiContainer = document.createElement('div');
+        confettiContainer.className = 'confetti-container';
+        confettiContainer.style.cssText = `
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 9999;
+            overflow: hidden;
+        `;
+        document.body.appendChild(confettiContainer);
+
+        for (let i = 0; i < confettiCount; i++) {
+            const confetti = document.createElement('div');
+            const size = Math.random() * 10 + 5;
+            const color = colors[Math.floor(Math.random() * colors.length)];
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 3 + 2;
+            const delay = Math.random() * 0.5;
+            const rotation = Math.random() * 720 + 360;
+            
+            confetti.style.cssText = `
+                position: absolute;
+                width: ${size}px;
+                height: ${size}px;
+                background-color: ${color};
+                left: ${startX}%;
+                top: -10px;
+                border-radius: ${Math.random() > 0.5 ? '50%' : '0'};
+                animation: confettiFall ${duration}s linear ${delay}s forwards;
+            `;
+            
+            confettiContainer.appendChild(confetti);
+        }
+
+        // Remove confetti container after animation
+        setTimeout(() => {
+            if (document.body.contains(confettiContainer)) {
+                document.body.removeChild(confettiContainer);
+            }
+        }, 6000);
+    }
+
+    // Add confetti animation CSS
+    const confettiStyles = `
+        @keyframes confettiFall {
+            to {
+                transform: translateY(calc(100vh + 100px)) rotate(720deg);
+                opacity: 0;
+            }
+        }
+    `;
+    
+    // Check if style already exists to avoid duplicates
+    if (!document.getElementById('confetti-styles')) {
+        const confettiStyleSheet = document.createElement('style');
+        confettiStyleSheet.id = 'confetti-styles';
+        confettiStyleSheet.textContent = confettiStyles;
+        document.head.appendChild(confettiStyleSheet);
+    }
+
+    // Intersection Observer for champions section confetti
+    const championsSection = document.querySelector('#champions');
+    let confettiTriggered = false;
+    
+    if (championsSection) {
+        // Function to trigger confetti
+        const triggerConfetti = () => {
+            if (!confettiTriggered) {
+                confettiTriggered = true;
+                createConfetti();
+            }
+        };
+        
+        // Check if section is already visible on page load (e.g., direct navigation to #champions)
+        const checkInitialVisibility = () => {
+            const rect = championsSection.getBoundingClientRect();
+            const isVisible = rect.top < window.innerHeight * 0.8 && rect.bottom > window.innerHeight * 0.2;
+            if (isVisible) {
+                setTimeout(() => triggerConfetti(), 300);
+            }
+        };
+        
+        // Check on DOM ready
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', checkInitialVisibility);
+        } else {
+            checkInitialVisibility();
+        }
+        
+        // Also check on window load
+        window.addEventListener('load', () => {
+            setTimeout(checkInitialVisibility, 100);
+        });
+        
+        // Intersection Observer for when scrolling to the section
+        const championsObserver = new IntersectionObserver(function(entries) {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    triggerConfetti();
+                }
+            });
+        }, {
+            threshold: 0.15,
+            rootMargin: '0px 0px -50px 0px'
+        });
+        
+        championsObserver.observe(championsSection);
+    }
+
     // Intersection Observer for animations
     const observerOptions = {
         threshold: 0.1,
