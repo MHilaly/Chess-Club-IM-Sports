@@ -756,7 +756,8 @@ section {
 
 /* Individual 2026 photo controls (zoom + framing) */
 .hof-grid-2026 .hof-card:nth-child(1) .hof-image img {
-    transform: scale(1);
+    object-fit: contain;
+    transform: scale(1.18);
     object-position: center 30%;
 }
 
