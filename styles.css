@@ -96,33 +96,15 @@ body::before {
 
 .nav-logo {
     display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    position: relative;
+    align-items: center;
 }
 
-.nav-logo::before {
-    content: '';
-    position: absolute;
-    left: -65px;
-    top: 50%;
-    transform: translateY(-50%);
+.nav-logo-link {
+    display: block;
     width: 60px;
     height: 60px;
     background: url('logo.png') center/contain no-repeat;
-    background-size: 100% 100%;
-}
-
-.logo-text {
-    color: var(--white);
-    font-weight: 700;
-    font-size: 1.2rem;
-}
-
-.logo-sports {
-    color: var(--usc-gold);
-    font-weight: 500;
-    font-size: 0.9rem;
+    background-size: contain;
 }
 
 .nav-menu {
@@ -753,6 +735,51 @@ section {
     background-color: rgba(0, 0, 0, 0.3);
 }
 
+/* Class of 2026 — fill card while keeping faces in frame */
+.hof-grid-2026 .hof-image img {
+    object-fit: cover;
+    object-position: center center;
+    background-color: rgba(176, 12, 12, 0.35);
+}
+
+/* Max, Minh, Riley — show full face without card crop */
+.hof-grid-2026 .hof-card:nth-child(2) .hof-image img,
+.hof-grid-2026 .hof-card:nth-child(3) .hof-image img,
+.hof-grid-2026 .hof-card:nth-child(4) .hof-image img {
+    object-fit: contain;
+}
+
+/* Riley — shift framing down and left in the card */
+.hof-grid-2026 .hof-card:nth-child(4) .hof-image img {
+    object-position: 40% 38%;
+}
+
+/* Individual 2026 photo controls (zoom + framing) */
+.hof-grid-2026 .hof-card:nth-child(1) .hof-image img {
+    transform: scale(1);
+    object-position: center 30%;
+}
+
+.hof-grid-2026 .hof-card:nth-child(2) .hof-image img {
+    transform: scale(4);
+    object-position: center center;
+}
+
+.hof-grid-2026 .hof-card:nth-child(3) .hof-image img {
+    transform: scale(2.1);
+    object-position: center 2%;
+}
+
+.hof-grid-2026 .hof-card:nth-child(4) .hof-image img {
+    transform: scale(1);
+    object-position: 40% 38%;
+}
+
+.hof-grid-2026 .hof-card:nth-child(5) .hof-image img {
+    transform: scale(1);
+    object-position: center center;
+}
+
 .hof-card:hover .hof-image img {
     transform: scale(1.05);
 }
@@ -907,6 +934,14 @@ section {
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s ease;
+}
+
+.gallery-item img[src="team1.jpg"] {
+    object-position: center 100%;
+}
+
+.gallery-item img[src="team6.jpg"] {
+    object-position: center bottom;
 }
 
 .gallery-item:hover img {
@@ -1079,6 +1114,79 @@ section {
     color: var(--gray-600);
     font-size: 0.95rem;
     line-height: 1.5;
+}
+
+/* Graduation Section */
+.graduation {
+    background: linear-gradient(135deg, var(--usc-cardinal) 0%, #5c0000 50%, var(--black) 100%);
+    color: var(--white);
+    padding: 70px 0;
+}
+
+.graduation .section-header h2 {
+    color: var(--usc-gold);
+}
+
+.graduation .section-header p {
+    color: var(--gray-300);
+}
+
+.graduation-content {
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 48px;
+    align-items: center;
+    max-width: 1150px;
+    margin: 0 auto;
+}
+
+.graduation-image {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 3px solid var(--usc-gold);
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.35);
+}
+
+.graduation-image img {
+    width: 100%;
+    height: 520px;
+    object-fit: cover;
+    object-position: center 48%;
+    transform: scale(1.42);
+    display: block;
+}
+
+.graduation-text h3 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--usc-gold);
+    margin-bottom: 1rem;
+}
+
+.graduation-text p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--gray-200);
+    margin-bottom: 1rem;
+}
+
+.graduation-signoff {
+    color: var(--usc-gold);
+    font-weight: 600;
+    font-style: italic;
+    margin-bottom: 0;
+}
+
+@media (max-width: 768px) {
+    .graduation-content {
+        grid-template-columns: 1fr;
+    }
+
+    .graduation-image img {
+        height: 400px;
+        object-position: center 48%;
+        transform: scale(1.35);
+    }
 }
 
 /* Contact Section */
@@ -1538,6 +1646,201 @@ section {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+}
+
+.champions-season + .champions-season {
+    margin-top: 80px;
+    padding-top: 80px;
+    border-top: 2px solid rgba(255, 204, 0, 0.35);
+}
+
+/* 2026 championship — navy / silver / cyan (distinct from 2025 cardinal & gold) */
+.champions-season-2026 {
+    --champ-26-bg-start: #0a1628;
+    --champ-26-bg-mid: #132f4c;
+    --champ-26-bg-end: #0c1f33;
+    --champ-26-accent: #94a3b8;
+    --champ-26-highlight: #38bdf8;
+    --champ-26-highlight-soft: #7dd3fc;
+    --champ-26-glow: rgba(56, 189, 248, 0.35);
+    --champ-26-text: #e2e8f0;
+    --champ-26-text-muted: rgba(226, 232, 240, 0.75);
+
+    margin-top: 80px;
+    padding: 60px 32px;
+    border-top: none;
+    border-radius: 24px;
+    background: linear-gradient(145deg, var(--champ-26-bg-start) 0%, var(--champ-26-bg-mid) 45%, var(--champ-26-bg-end) 100%);
+    box-shadow:
+        0 24px 60px rgba(0, 0, 0, 0.45),
+        inset 0 1px 0 rgba(148, 163, 184, 0.15);
+    color: var(--champ-26-text);
+    position: relative;
+    overflow: hidden;
+}
+
+.champions-confetti {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    overflow: hidden;
+}
+
+.confetti-piece {
+    position: absolute;
+    top: -10%;
+    opacity: 0.9;
+    animation: confetti-fall linear infinite;
+    will-change: transform;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translate3d(0, 0, 0) rotate(0deg);
+    }
+    100% {
+        transform: translate3d(var(--drift), 120%, 0) rotate(var(--spin));
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .confetti-piece {
+        animation: none;
+        display: none;
+    }
+}
+
+.champions-season-2026::before {
+    content: '★';
+    position: absolute;
+    top: 24px;
+    right: 28px;
+    font-size: 2.5rem;
+    color: var(--champ-26-highlight);
+    opacity: 0.25;
+    pointer-events: none;
+}
+
+.champions-season-2026 .champions-subtitle {
+    background: rgba(56, 189, 248, 0.12);
+    border-color: var(--champ-26-highlight);
+    box-shadow: 0 10px 30px var(--champ-26-glow);
+}
+
+.champions-season-2026 .champions-subtitle h3 {
+    color: var(--champ-26-highlight-soft);
+    text-shadow: 0 0 20px var(--champ-26-glow);
+}
+
+.champions-season-2026 .champions-stat,
+.champions-season-2026 .captain-group {
+    border-color: var(--champ-26-accent);
+    background: rgba(15, 23, 42, 0.55);
+}
+
+.champions-season-2026 .captain-group:hover {
+    box-shadow: 0 12px 30px var(--champ-26-glow);
+    border-color: var(--champ-26-highlight);
+}
+
+.champions-season-2026 .champions-stat strong,
+.champions-season-2026 .captain-group .captain-title {
+    color: var(--champ-26-highlight-soft);
+}
+
+.champions-season-2026 .captain-group .captain-label {
+    color: var(--champ-26-text-muted);
+}
+
+.champions-season-2026 .captain-group .captain-name,
+.champions-season-2026 .champions-stat {
+    color: var(--champ-26-text);
+}
+
+.champions-season-2026 .champions-image {
+    border-color: var(--champ-26-highlight);
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5), 0 0 30px var(--champ-26-glow);
+}
+
+.champions-season-2026 .champions-image-placeholder {
+    background: rgba(15, 23, 42, 0.6);
+}
+
+.champions-season-2026 .champions-placeholder-box {
+    color: var(--champ-26-text-muted);
+}
+
+.champions-season-2026 .champions-placeholder-box i {
+    color: var(--champ-26-highlight);
+}
+
+.champions-season-2026 .champions-description {
+    border-color: rgba(148, 163, 184, 0.35);
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.champions-season-2026 .champions-description p {
+    color: var(--champ-26-text);
+}
+
+.champions-season-2026 .champions-description p:last-child {
+    color: var(--champ-26-highlight-soft);
+}
+
+.champions-season-2026 .champions-scores {
+    border-color: rgba(56, 189, 248, 0.35);
+    background: rgba(15, 23, 42, 0.45);
+}
+
+.champions-season-2026 .champions-scores h4 {
+    color: var(--champ-26-highlight-soft);
+}
+
+.champions-season-2026 .score-list li {
+    color: var(--champ-26-text);
+    border-bottom-color: rgba(148, 163, 184, 0.25);
+}
+
+.champions-season-2026 .score-list li.playoffs-header {
+    color: var(--champ-26-highlight-soft);
+    border-bottom-color: var(--champ-26-highlight);
+}
+
+.champions-season-2026 .score-win {
+    color: var(--champ-26-highlight);
+    text-shadow: 0 0 12px var(--champ-26-glow);
+}
+
+.champions-season-2026 .score-loss {
+    color: var(--champ-26-text-muted);
+}
+
+.champions-image-placeholder {
+    min-height: 320px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: rgba(0, 0, 0, 0.25);
+}
+
+.champions-placeholder-box {
+    text-align: center;
+    color: var(--gray-300);
+    padding: 40px;
+}
+
+.champions-placeholder-box i {
+    font-size: 3rem;
+    color: var(--usc-gold);
+    margin-bottom: 1rem;
+    opacity: 0.8;
+}
+
+.champions-placeholder-box p {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 0;
 }
 
 .champions-subtitle {

@@ -449,6 +449,45 @@ if ('IntersectionObserver' in window) {
     });
 }
 
+// Blue confetti for 2026 champions section
+function initChampions2026Confetti() {
+    const container = document.querySelector('.champions-season-2026 .champions-confetti');
+    if (!container || window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        return;
+    }
+
+    const colors = ['#38bdf8', '#7dd3fc', '#0ea5e9', '#60a5fa', '#93c5fd', '#bae6fd', '#e0f2fe'];
+    const pieceCount = 60;
+
+    for (let i = 0; i < pieceCount; i++) {
+        const piece = document.createElement('span');
+        piece.className = 'confetti-piece';
+
+        const width = Math.random() * 8 + 4;
+        const height = Math.random() * 12 + 6;
+        const left = Math.random() * 100;
+        const duration = Math.random() * 4 + 5;
+        const delay = Math.random() * 6;
+        const drift = (Math.random() - 0.5) * 120;
+        const spin = (Math.random() > 0.5 ? 1 : -1) * (360 + Math.random() * 360);
+        const isCircle = Math.random() > 0.65;
+
+        piece.style.left = `${left}%`;
+        piece.style.width = `${width}px`;
+        piece.style.height = `${height}px`;
+        piece.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.animationDuration = `${duration}s`;
+        piece.style.animationDelay = `${delay}s`;
+        piece.style.setProperty('--drift', `${drift}px`);
+        piece.style.setProperty('--spin', `${spin}deg`);
+        piece.style.borderRadius = isCircle ? '50%' : '2px';
+
+        container.appendChild(piece);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', initChampions2026Confetti);
+
 // Add loading animation for page transitions
 window.addEventListener('load', function() {
     document.body.classList.add('loaded');
