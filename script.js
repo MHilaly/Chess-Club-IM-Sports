@@ -488,6 +488,95 @@ function initChampions2026Confetti() {
 
 document.addEventListener('DOMContentLoaded', initChampions2026Confetti);
 
+// Hall of Fame photo toggles (Minh, Analisa, etc.)
+document.addEventListener('DOMContentLoaded', function() {
+    function playToggleSound(toggleBtn) {
+        const soundSrc = toggleBtn.dataset.sound;
+        if (!soundSrc) return;
+
+        const lastSeconds = parseFloat(toggleBtn.dataset.soundLastSeconds, 10);
+        const volume = 0.75;
+        const isMp4 = soundSrc.toLowerCase().endsWith('.mp4');
+
+        if (lastSeconds > 0 || isMp4) {
+            const clip = document.createElement('video');
+            clip.src = soundSrc;
+            clip.volume = volume;
+            clip.preload = 'metadata';
+
+            clip.addEventListener('loadedmetadata', function() {
+                clip.currentTime = lastSeconds > 0
+                    ? Math.max(0, clip.duration - lastSeconds)
+                    : 0;
+                clip.play().catch(function() {
+                    // Ignore autoplay restrictions or missing media files.
+                });
+            });
+
+            if (lastSeconds > 0) {
+                clip.addEventListener('timeupdate', function() {
+                    if (clip.currentTime >= clip.duration - 0.05) {
+                        clip.pause();
+                    }
+                });
+            }
+
+            return;
+        }
+
+        const audio = new Audio(soundSrc);
+        audio.volume = volume;
+        audio.play().catch(function() {
+            // Ignore autoplay restrictions or missing audio files.
+        });
+    }
+
+    document.querySelectorAll('.hof-photo-toggle').forEach(function(toggleBtn) {
+        const card = toggleBtn.closest('.hof-card');
+        const photo = card && card.querySelector('.hof-toggle-photo');
+        if (!photo || !photo.dataset.photoAlt) return;
+
+        const defaultSrc = photo.dataset.photoDefault;
+        const altSrc = photo.dataset.photoAlt;
+        const nameEl = card.querySelector('.hof-profile-name');
+        const positionEl = card.querySelector('.hof-profile-position');
+        const achievementsEl = card.querySelector('.hof-achievements[data-tags-alt]');
+        let showingAlt = false;
+
+        function renderAchievementTags(container, tagList) {
+            container.innerHTML = tagList
+                .split(',')
+                .map(function(tag) {
+                    return '<span class="achievement-tag">' + tag.trim() + '</span>';
+                })
+                .join('');
+        }
+
+        toggleBtn.addEventListener('click', function() {
+            playToggleSound(toggleBtn);
+            showingAlt = !showingAlt;
+            photo.src = showingAlt ? altSrc : defaultSrc;
+            photo.classList.toggle('hof-toggle-photo--alt', showingAlt);
+            toggleBtn.setAttribute('aria-pressed', showingAlt ? 'true' : 'false');
+
+            if (nameEl && nameEl.dataset.nameAlt) {
+                nameEl.textContent = showingAlt ? nameEl.dataset.nameAlt : nameEl.dataset.nameDefault;
+            }
+
+            if (positionEl && positionEl.dataset.positionAlt) {
+                positionEl.textContent = showingAlt ? positionEl.dataset.positionAlt : positionEl.dataset.positionDefault;
+            }
+
+            if (achievementsEl) {
+                renderAchievementTags(
+                    achievementsEl,
+                    showingAlt ? achievementsEl.dataset.tagsAlt : achievementsEl.dataset.tagsDefault
+                );
+            }
+        });
+    });
+});
+
 // Add loading animation for page transitions
 window.addEventListener('load', function() {
     document.body.classList.add('loaded');
